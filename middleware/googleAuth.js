@@ -1,18 +1,17 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const fs = require("fs");
-const path = require("path");
 
-// Cargar el JSON secreto
-const keysPath = path.join(__dirname, "../config/cliente.json");
-const keys = JSON.parse(fs.readFileSync(keysPath));
+// Cargar variables de entorno
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const GOOGLE_CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL;
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: keys.web.client_id,
-      clientSecret: keys.web.client_secret,
-      callbackURL: keys.web.redirect_uris[0]
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: GOOGLE_CALLBACK_URL
     },
     (accessToken, refreshToken, profile, done) => {
       console.log("Usuario Google:", profile);
